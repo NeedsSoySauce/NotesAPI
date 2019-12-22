@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mysql = require('mysql');
+var swaggerUi = require('swagger-ui-express');
+var swaggerDocument = require('./swagger.json');
 
 // Setup express
 const app = express();
@@ -10,6 +12,7 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
  
 // Setup mysql driver
 const pool = mysql.createPool({

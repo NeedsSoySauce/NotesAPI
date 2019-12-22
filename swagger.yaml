@@ -1,0 +1,137 @@
+swagger: "2.0"
+
+info:
+  version: 1.0.0
+  title: NotesAPI
+  description: A simple API written in Node JS for saving notes to a MySQL database.
+
+paths: 
+  /notes:
+    get:
+      summary: Gets all notes
+      description: Returns an array containing all notes.
+      parameters:
+        - name: limit
+          in: query
+          description: The maximum number of notes to return.
+          type: number
+      responses:
+        200:
+          description: An array of notes.
+          schema:
+            $ref: "#/definitions/notes"
+    post:
+      summary: Creates a note
+      description: Creates a new note.
+      parameters:
+        - name: Note
+          in: body
+          required: true
+          description: The note to create.
+          schema:
+            type: object
+            required:
+              - title
+            properties:
+              title:
+                type: string
+              description: 
+                type: string
+      responses:
+        200:
+          description: The query output.
+          schema:
+            $ref: "#/definitions/queryResponse"
+  /notes/{id}:
+    get:
+      summary: Gets a note
+      description: Returns the node with the given id (if any)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The note's id.
+          type: string
+      responses:
+        200:
+          description: A note.
+          schema:
+            $ref: "#/definitions/notes"
+    put:
+      summary: Updates a note
+      description: Updates the note with the given id (if any)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The note's id.
+          type: string
+        - name: Note
+          in: body
+          required: true
+          description: The new note values.
+          schema:
+            type: object
+            required:
+              - title
+            properties:
+              title:
+                type: string
+              description: 
+                type: string
+      responses:
+        200:
+          description: The query output.
+          schema:
+            $ref: "#/definitions/queryResponse"
+    delete:
+      summary: Deletes a note
+      description: Deletes the note with the given id (if any)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The note's id.
+          type: string
+      responses:
+        200:
+          description: The query output.
+          schema:
+            $ref: "#/definitions/queryResponse"
+                
+definitions:
+  note:
+    type: object
+    required:
+      - id
+      - title
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+      description:
+        type: string
+  notes:
+    type: array
+    items:
+      $ref: "#/definitions/note"
+  queryResponse:
+    type: object
+    properties:
+      fieldCount:
+        type: number
+      affectedRows: 
+        type: number
+      insertId: 
+        type: number
+      serverStatus: 
+        type: number
+      warningCount: 
+        type: number
+      message: 
+        type: string
+      protocol41: 
+        type: boolean
+      changedRows: 
+        type: number
